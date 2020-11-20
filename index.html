@@ -30,6 +30,8 @@
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const db = firestore.firestore();
+        db.settings({ timestampInSnapshots: true}) // this will not let us have error in our console
     </script>
 
     <script src="app.js"></script>
