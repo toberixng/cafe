@@ -15,28 +15,33 @@ function renderCafe(doc) {
 
     li.appendChild(name);
     li.appendChild(city);
+    li.appendChild(cross);
 
     cafeList.appendChild(li);
+
+    // deleting data
+cross.addEventListener('click', e => {
+    e.stopPropagation()
+
+    let id = e.target.parentElement.getAttribute('data-id');
+    db.collection('cafes').doc(id).delete()
+})
 }
 
 // getting data
-db.collection('cafes').get().then(snapshot => {
+db.collection('cafes').orderBy('city').get().then(snapshot => {
     snapshot.docs.forEach(doc => {
         renderCafe(doc);
     });
 });
 
-// adding data
-
+// saving data
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-
     db.collection('cafes').add({
         name: form.name.value,
         city: form.city.value
     });
-
-    form.name.value = ''
-    form.city.value = ''
-})
-
+    form.name.value = '';
+    form.city.value = '';
+});
